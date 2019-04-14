@@ -12,22 +12,28 @@ def read_attachments(
 		attachment_suffix=attachment_suffix, 
 		get_attachments=True)
 	#print(attachment_df['FileName'])
- 
-	for filepath in attachment_df['filepath']:
-		output_df = pd.read_csv(filepath)
 
-		column_list = output_df.columns.tolist()
-		#replace unwanted characters in column names
-		column_list = [w.replace('?', '') for w in column_list]
-		output_df.columns = column_list
+	if attachment_df.empty == False:
+		#SORT TABLE BY EMAIL DELIVERY DATE
+		attachment_df.sort_values(by=['sentdate'], ascending=False, axis=0, inplace=True)
 
-		sql_filepath = 'sql/'
-		tablename = ''
-		fields = ''
+		for filepath in attachment_df['filepath']:
+			output_df = pd.read_csv(filepath)
 
-		merge_with_database(output_df, sql_filepath, sql_filename, tablename, fields, 2) #in FUNCTIONS_sql
+			column_list = output_df.columns.tolist()
+			#replace unwanted characters in column names
+			column_list = [w.replace('?', '') for w in column_list]
+			output_df.columns = column_list
 
-	u_print('DELETING ATTACHMENTS')
-	for filepath in attachment_df['filepath']:
-		os.remove(filepath)
-	u_print('ATTACHMENTS DELETED')
+			sql_filepath = 'sql/'
+			tablename = ''
+			fields = ''
+
+			merge_with_database(output_df, sql_filepath, sql_filename, tablename, fields, 2) #in FUNCTIONS_sql
+
+		u_print('DELETING ATTACHMENTS')
+		for filepath in attachment_df['filepath']:
+			os.remove(filepath)
+		u_print('ATTACHMENTS DELETED')
+	else:
+		u_print('NO ATTACHMENTS FOUND')
