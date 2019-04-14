@@ -17,10 +17,18 @@ u_print('########################################')
 start_time = datetime.datetime.now() #need for process time u_printing
 
 
+start_date = datetime.datetime.now()
+start_date = start_date - datetime.timedelta(days=2.0)
+start_date = start_date.strftime('%Y-%m-%d')
+
+end_date = datetime.datetime.now()
+end_date = end_date.strftime('%Y-%m-%d')
+
 access_token = get_windows_accesstoken(lf_tenantid, 'etl_email_access', etl_clientid, etl_clientsecret, 'https://outlook.office.com/')
 
 #GET THE COMPIANCE SCCM INFO
 read_attachments(
+	start_date=start_date, end_date=end_date,
 	attachment_name='compliance_report_SUMMARY',attachment_exact=False, 
 	attachment_suffix='.csv',
 	sql_filename='compliance_sccm_summary')
