@@ -16,17 +16,24 @@ u_print('########################################')
 
 start_time = datetime.datetime.now() #need for process time u_printing
 
+
+access_token = get_windows_accesstoken(lf_tenantid, 'etl_email_access', etl_clientid, etl_clientsecret, 'https://outlook.office.com/')
+
+
+
 end_database = 2
 database = 'INF_DATA'
 
 start_date = datetime.datetime.now()
-start_date = start_date - datetime.timedelta(days=20.0)
+start_date = start_date - datetime.timedelta(days=1.0)
 start_date = start_date.strftime('%Y-%m-%d')
 
 end_date = datetime.datetime.now() + datetime.timedelta(days=1.0)
 end_date = end_date.strftime('%Y-%m-%d')
 
-access_token = get_windows_accesstoken(lf_tenantid, 'etl_email_access', etl_clientid, etl_clientsecret, 'https://outlook.office.com/')
+u_print('')
+u_print('email search range from: '+str(start_date)+" to: "+str(end_date))
+u_print('')
 
 #################################################################################GET THE SUMMARY COMPLIANCE SCCM INFO
 read_attachments(
