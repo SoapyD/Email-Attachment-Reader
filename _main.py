@@ -22,8 +22,8 @@ access_token = get_windows_accesstoken(lf_tenantid, 'etl_email_access', etl_clie
 
 
 end_database = 2
-#database = 'INF_DATA'
-database = 'LF-SQL-DEV'
+database = 'INF_DATA'
+#database = 'LF-SQL-DEV'
 #staging_tablename='stg'
 staging_tablename='stg_attachments'
 
