@@ -3,7 +3,8 @@ def read_attachments(
 	start_date=None, end_date=None,
 	attachment_name='', attachment_exact=True,
 	attachment_suffix='',
-	sql_filename=''
+	sql_filename='',
+	end_database=2, database=''
 	):
 
 	u_print("SEARCHING FOR...")
@@ -41,7 +42,7 @@ def read_attachments(
 			tablename = ''
 			fields = ''
 
-			merge_with_database(output_df, sql_filepath, sql_filename, tablename, fields, 2) #in FUNCTIONS_sql
+			merge_with_database(output_df, sql_filepath, sql_filename, tablename, fields, end_database, database=database) #in FUNCTIONS_sql
 
 		u_print('')
 		u_print('DELETING LOCAL ATTACHMENT FILES')
