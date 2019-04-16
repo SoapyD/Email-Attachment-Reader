@@ -18,7 +18,7 @@ start_time = datetime.datetime.now() #need for process time u_printing
 
 
 start_date = datetime.datetime.now()
-start_date = start_date - datetime.timedelta(days=2.0)
+start_date = start_date - datetime.timedelta(days=20.0)
 start_date = start_date.strftime('%Y-%m-%d')
 
 end_date = datetime.datetime.now()
@@ -26,12 +26,19 @@ end_date = end_date.strftime('%Y-%m-%d')
 
 access_token = get_windows_accesstoken(lf_tenantid, 'etl_email_access', etl_clientid, etl_clientsecret, 'https://outlook.office.com/')
 
-#GET THE COMPIANCE SCCM INFO
+#################################################################################GET THE SUMMARY COMPLIANCE SCCM INFO
 read_attachments(
 	start_date=start_date, end_date=end_date,
 	attachment_name='compliance_report_SUMMARY',attachment_exact=False, 
 	attachment_suffix='.csv',
 	sql_filename='compliance_sccm_summary')
+
+#################################################################################GET THE DETAIL COMPLIANCE SCCM INFO
+read_attachments(
+	start_date=start_date, end_date=end_date,
+	attachment_name='compliance_report_DETAILS',attachment_exact=False, 
+	attachment_suffix='.csv',
+	sql_filename='compliance_sccm_details')
 
 
 finish_time = datetime.datetime.now()
@@ -45,4 +52,4 @@ u_print('End: '+str(finish_time))
 u_print('Time Taken: '+str(finish_time - start_time))
 u_print('########################################')
 
-#save_process(start_time, finish_time, str(finish_time - start_time), "Email-Attachment-Reader")
+save_process(start_time, finish_time, str(finish_time - start_time), "Email-Attachment-Reader")

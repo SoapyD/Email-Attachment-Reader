@@ -6,19 +6,29 @@ def read_attachments(
 	sql_filename=''
 	):
 
-	attachment_df = get_emails(
+	u_print("SEARCHING FOR...")
+	u_print("Subject: "+subject_text)
+	u_print("Attachment: "+attachment_name)
+	u_print("Attachment Suffix: "+attachment_suffix)
+	u_print("")
+
+	return_info = get_emails(
 		access_token, etl_folderid, 
 		subject_text=subject_text,subject_exact=subject_exact, 
 		start_date=start_date, end_date=end_date,
 		attachment_name=attachment_name,attachment_exact=attachment_exact,
 		attachment_suffix=attachment_suffix, 
-		get_attachments=True)
-	#print(attachment_df['FileName'])
+		get_attachments=True
+		)
+
+	email_df = return_info[0]	
+	attachment_df = return_info[1]
 
 	if attachment_df.empty == False:
 		#SORT TABLE BY EMAIL DELIVERY DATE
-		attachment_df.sort_values(by=['sentdate'], ascending=False, axis=0, inplace=True)
-
+		#ascending is true because we want to process the older files first
+		attachment_df.sort_values(by=['sentdate'], ascending=True, axis=0, inplace=True)
+		
 		for filepath in attachment_df['filepath']:
 			output_df = pd.read_csv(filepath)
 
