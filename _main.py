@@ -22,7 +22,10 @@ access_token = get_windows_accesstoken(lf_tenantid, 'etl_email_access', etl_clie
 
 
 end_database = 2
-database = 'INF_DATA'
+#database = 'INF_DATA'
+database = 'LF-SQL-DEV'
+#staging_tablename='stg'
+staging_tablename='stg_attachments'
 
 start_date = datetime.datetime.now()
 start_date = start_date - datetime.timedelta(days=1.0)
@@ -41,7 +44,7 @@ read_attachments(
 	attachment_name='compliance_report_SUMMARY',attachment_exact=False, 
 	attachment_suffix='.csv',
 	sql_filename='compliance_sccm_summary',
-	end_database=end_database, database=database)
+	end_database=end_database, database=database, staging_tablename=staging_tablename)
 
 #################################################################################GET THE DETAIL COMPLIANCE SCCM INFO
 read_attachments(
@@ -49,7 +52,7 @@ read_attachments(
 	attachment_name='compliance_report_DETAILS',attachment_exact=False, 
 	attachment_suffix='.csv',
 	sql_filename='compliance_sccm_details',
-	end_database=end_database, database=database)
+	end_database=end_database, database=database, staging_tablename=staging_tablename)
 
 
 finish_time = datetime.datetime.now()
