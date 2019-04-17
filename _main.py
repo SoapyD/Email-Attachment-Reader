@@ -11,7 +11,7 @@ import datetime
 global error_count
 
 u_print('########################################')
-u_print("RUNNING GIT REFRESH PROCESS")
+u_print("RUNNING EMAIL-ATTACHMENT-READER PROCESS")
 u_print('########################################')
 
 start_time = datetime.datetime.now() #need for process time u_printing
@@ -22,13 +22,14 @@ access_token = get_windows_accesstoken(lf_tenantid, 'etl_email_access', etl_clie
 
 
 end_database = 2
-database = 'INF_DATA'
 #database = 'LF-SQL-DEV'
 #staging_tablename='stg'
+database = 'INF_DATA'
 staging_tablename='stg_attachments'
+delete_staging = True
 
 start_date = datetime.datetime.now()
-start_date = start_date - datetime.timedelta(days=1.0)
+start_date = start_date - datetime.timedelta(days=0.0)
 start_date = start_date.strftime('%Y-%m-%d')
 
 end_date = datetime.datetime.now() + datetime.timedelta(days=1.0)
@@ -44,7 +45,7 @@ read_attachments(
 	attachment_name='compliance_report_SUMMARY',attachment_exact=False, 
 	attachment_suffix='.csv',
 	sql_filename='compliance_sccm_summary',
-	end_database=end_database, database=database, staging_tablename=staging_tablename)
+	end_database=end_database, database=database, staging_tablename=staging_tablename, delete_staging=delete_staging)
 
 #################################################################################GET THE DETAIL COMPLIANCE SCCM INFO
 read_attachments(
@@ -52,7 +53,7 @@ read_attachments(
 	attachment_name='compliance_report_DETAILS',attachment_exact=False, 
 	attachment_suffix='.csv',
 	sql_filename='compliance_sccm_details',
-	end_database=end_database, database=database, staging_tablename=staging_tablename)
+	end_database=end_database, database=database, staging_tablename=staging_tablename, delete_staging=delete_staging)
 
 
 finish_time = datetime.datetime.now()
@@ -66,4 +67,4 @@ u_print('End: '+str(finish_time))
 u_print('Time Taken: '+str(finish_time - start_time))
 u_print('########################################')
 
-save_process(start_time, finish_time, str(finish_time - start_time), "Email-Attachment-Reader")
+save_process(start_time, finish_time, str(finish_time - start_time), "Email-Attachment-Reader", "daily")
