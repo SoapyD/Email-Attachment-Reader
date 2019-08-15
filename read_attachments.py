@@ -42,9 +42,12 @@ def read_attachments(
 			tablename = ''
 			fields = ''
 
-			merge_with_database(
-				output_df, sql_filepath, sql_filename, tablename, fields, 
-				end_database, database=database, staging_tablename=staging_tablename, delete_staging=delete_staging) #in FUNCTIONS_sql
+			#merge_with_database(
+			#	output_df, sql_filepath, sql_filename, tablename, fields, 
+			#	end_database, database=database, staging_tablename=staging_tablename, delete_staging=delete_staging) #in FUNCTIONS_sql
+
+			merge_with_db_powershell(output_df, sql_filepath, sql_filename, tablename, fields, db, database, 
+			staging_tablename, delete_staging, print_details=print_details, merge_sql=merge_sql) #in FUNCTIONS_sql
 
 		u_print('')
 		u_print('DELETING LOCAL ATTACHMENT FILES')
