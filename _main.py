@@ -19,6 +19,8 @@ start_time = datetime.datetime.now() #need for process time u_printing
 
 access_token = get_windows_accesstoken(lf_tenantid, 'etl_email_access', etl_clientid, etl_clientsecret, 'https://outlook.office.com/')
 
+print_internal = 0
+print_details = False
 
 
 end_database = 2
@@ -35,26 +37,52 @@ start_date = start_date.strftime('%Y-%m-%d')
 end_date = datetime.datetime.now() + datetime.timedelta(days=1.0)
 end_date = end_date.strftime('%Y-%m-%d')
 
-u_print('')
-u_print('email search range from: '+str(start_date)+" to: "+str(end_date))
-u_print('')
+if print_internal > 0:
+	u_print('')
+	u_print('email search range from: '+str(start_date)+" to: "+str(end_date))
+	u_print('')
 
 #################################################################################GET THE SUMMARY COMPLIANCE SCCM INFO
+
+#CAFCASS
 read_attachments(
 	start_date=start_date, end_date=end_date,
+	subject_text='sccm compliance summary - cafcass - CF10001D',subject_exact=True,
 	attachment_name='compliance_report_SUMMARY',attachment_exact=False, 
 	attachment_suffix='.csv',
 	sql_filename='compliance_sccm_summary',
-	end_database=end_database, database=database, staging_tablename=staging_tablename, delete_staging=delete_staging)
+	end_database=end_database, database=database, staging_tablename=staging_tablename, delete_staging=delete_staging, 
+	print_internal=print_internal, print_details=print_details)
 
-#################################################################################GET THE DETAIL COMPLIANCE SCCM INFO
 read_attachments(
 	start_date=start_date, end_date=end_date,
+	subject_text='sccm compliance summary - cafcass - CF100077',subject_exact=True,
+	attachment_name='compliance_report_SUMMARY',attachment_exact=False, 
+	attachment_suffix='.csv',
+	sql_filename='compliance_sccm_summary',
+	end_database=end_database, database=database, staging_tablename=staging_tablename, delete_staging=delete_staging, 
+	print_internal=print_internal, print_details=print_details)
+
+#################################################################################GET THE DETAIL COMPLIANCE SCCM INFO
+
+#CAFCASS
+read_attachments(
+	start_date=start_date, end_date=end_date,
+	subject_text='sccm compliance details - cafcass - CF10001D',subject_exact=True,
 	attachment_name='compliance_report_DETAILS',attachment_exact=False, 
 	attachment_suffix='.csv',
 	sql_filename='compliance_sccm_details',
-	end_database=end_database, database=database, staging_tablename=staging_tablename, delete_staging=delete_staging)
+	end_database=end_database, database=database, staging_tablename=staging_tablename, delete_staging=delete_staging, 
+	print_internal=print_internal, print_details=print_details)
 
+read_attachments(
+	start_date=start_date, end_date=end_date,
+	subject_text='sccm compliance details - cafcass - CF100077',subject_exact=True,
+	attachment_name='compliance_report_DETAILS',attachment_exact=False, 
+	attachment_suffix='.csv',
+	sql_filename='compliance_sccm_details',
+	end_database=end_database, database=database, staging_tablename=staging_tablename, delete_staging=delete_staging, 
+	print_internal=print_internal, print_details=print_details)
 
 finish_time = datetime.datetime.now()
 
@@ -67,4 +95,4 @@ u_print('End: '+str(finish_time))
 u_print('Time Taken: '+str(finish_time - start_time))
 u_print('########################################')
 
-save_process(start_time, finish_time, str(finish_time - start_time), "Email-Attachment-Reader", "daily")
+#save_process(start_time, finish_time, str(finish_time - start_time), "Email-Attachment-Reader", "daily")
