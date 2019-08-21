@@ -3,6 +3,7 @@
 /*CREATE TABLE compliance_sccm_summary (*/
 DECLARE @Temp_Table TABLE(
     id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    company NVARCHAR(50),
     date DATE,
     device_type NVARCHAR(50),
     customer_id INT,
@@ -16,6 +17,7 @@ DECLARE @Temp_Table TABLE(
 );
 INSERT INTO @Temp_Table
 SELECT
+    m.company,
     M.date,
     m.device_type,
     ISNULL(c.id,NULL) AS customer_id,
@@ -67,13 +69,14 @@ FROM
 MERGE [dbo].[compliance_sccm_summary] target
 Using @Temp_Table source
 ON (
-CONVERT(NVARCHAR,target.customer_id) + CONVERT(NVARCHAR,target.date) + target.auth_list + target.collection 
+target.company + CONVERT(NVARCHAR,target.customer_id) + CONVERT(NVARCHAR,target.date) + target.auth_list + target.collection 
 = 
-CONVERT(NVARCHAR,source.customer_id) + CONVERT(NVARCHAR,source.date) + target.auth_list + source.collection
+source.company + CONVERT(NVARCHAR,source.customer_id) + CONVERT(NVARCHAR,source.date) + target.auth_list + source.collection
 )
 WHEN MATCHED
 THEN UPDATE
 SET
+TARGET.company = SOURCE.company,
 TARGET.date = SOURCE.date,
 TARGET.device_type = SOURCE.device_type,
 TARGET.customer_id = SOURCE.customer_id,
@@ -87,6 +90,7 @@ TARGET.non_compliance_percentage = SOURCE.non_compliance_percentage
 WHEN NOT MATCHED BY TARGET
 THEN INSERT 
 (
+company,
 date,
 device_type,
 customer_id,
@@ -99,6 +103,7 @@ compliance_percentage,
 non_compliance_percentage
 )
 VALUES (
+SOURCE.company,
 SOURCE.date,
 SOURCE.device_type,
 SOURCE.customer_id,
