@@ -82,6 +82,16 @@ read_attachments(
 	end_database=end_database, database=database, staging_tablename=staging_tablename, delete_staging=delete_staging, 
 	print_internal=print_internal, print_details=print_details)
 
+#UKEF
+read_attachments(
+	start_date=start_date, end_date=end_date,
+	subject_text='sccm compliance summary - ukef - EF100087',subject_exact=True,
+	attachment_name='compliance_report_SUMMARY',attachment_exact=False, 
+	attachment_suffix='.csv',
+	sql_filename='compliance_sccm_summary',
+	end_database=end_database, database=database, staging_tablename=staging_tablename, delete_staging=delete_staging, 
+	print_internal=print_internal, print_details=print_details)
+
 #################################################################################GET THE DETAIL COMPLIANCE SCCM INFO
 
 #CAFCASS
@@ -122,6 +132,15 @@ read_attachments(
 	end_database=end_database, database=database, staging_tablename=staging_tablename, delete_staging=delete_staging, 
 	print_internal=print_internal, print_details=print_details)
 
+#UKEF
+read_attachments(
+	start_date=start_date, end_date=end_date,
+	subject_text='sccm compliance details - ukef - EF100087',subject_exact=True,
+	attachment_name='compliance_report_SUMMARY',attachment_exact=False, 
+	attachment_suffix='.csv',
+	sql_filename='compliance_sccm_summary',
+	end_database=end_database, database=database, staging_tablename=staging_tablename, delete_staging=delete_staging, 
+	print_internal=print_internal, print_details=print_details)
 
 finish_time = datetime.datetime.now()
 
