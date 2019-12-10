@@ -19,7 +19,7 @@ start_time = datetime.datetime.now() #need for process time u_printing
 
 access_token = get_windows_accesstoken(lf_tenantid, 'etl_email_access', etl_clientid, etl_clientsecret, 'https://outlook.office.com/')
 
-print_internal = 0
+print_internal = 1
 print_details = False
 
 
@@ -44,6 +44,7 @@ if print_internal > 0:
 
 #################################################################################GET THE SUMMARY COMPLIANCE SCCM INFO
 
+""""""
 #CAFCASS
 read_attachments(
 	start_date=start_date, end_date=end_date,
@@ -92,8 +93,19 @@ read_attachments(
 	end_database=end_database, database=database, staging_tablename=staging_tablename, delete_staging=delete_staging, 
 	print_internal=print_internal, print_details=print_details)
 
-#################################################################################GET THE DETAIL COMPLIANCE SCCM INFO
 
+#CROYDON
+read_attachments(
+	start_date=start_date, end_date=end_date,
+	subject_text='sccm compliance summary - croydon - BAU0001C',subject_exact=True,
+	attachment_name='compliance_report_SUMMARY',attachment_exact=False, 
+	attachment_suffix='.csv',
+	sql_filename='compliance_sccm_summary',
+	end_database=end_database, database=database, staging_tablename=staging_tablename, delete_staging=delete_staging, 
+	print_internal=print_internal, print_details=print_details)
+
+#################################################################################GET THE DETAIL COMPLIANCE SCCM INFO
+""""""
 #CAFCASS
 read_attachments(
 	start_date=start_date, end_date=end_date,
@@ -142,6 +154,18 @@ read_attachments(
 	end_database=end_database, database=database, staging_tablename=staging_tablename, delete_staging=delete_staging, 
 	print_internal=print_internal, print_details=print_details)
 
+#CROYDON
+read_attachments(
+	start_date=start_date, end_date=end_date,
+	subject_text='sccm compliance details - croydon - BAU0001C',subject_exact=True,
+	attachment_name='compliance_report_DETAILS',attachment_exact=False, 
+	attachment_suffix='.csv',
+	sql_filename='compliance_sccm_details',
+	end_database=end_database, database=database, staging_tablename=staging_tablename, delete_staging=delete_staging, 
+	print_internal=print_internal, print_details=print_details)
+
+
+
 finish_time = datetime.datetime.now()
 
 u_print('')
@@ -153,4 +177,4 @@ u_print('End: '+str(finish_time))
 u_print('Time Taken: '+str(finish_time - start_time))
 u_print('########################################')
 
-save_process(start_time, finish_time, str(finish_time - start_time), "Email-Attachment-Reader", "daily")
+#save_process(start_time, finish_time, str(finish_time - start_time), "Email-Attachment-Reader", "daily")

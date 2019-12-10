@@ -17,17 +17,21 @@ def read_attachments(
 	#u_print("Attachment Suffix: "+attachment_suffix)
 	u_print("SEARCHING FOR | Subject: "+subject_text+"| Attachment: "+attachment_name+" | Attachment Suffix: "+attachment_suffix)
 
+	""""""
 	return_info = get_emails(
 		access_token, etl_folderid, 
 		subject_text=subject_text,subject_exact=subject_exact, 
 		start_date=start_date, end_date=end_date,
 		attachment_name=attachment_name,attachment_exact=attachment_exact,
 		attachment_suffix=attachment_suffix, 
-		get_attachments=True, print_details=False
+		get_attachments=True, print_details=print_details
 		)
+	
 
 	email_df = return_info[0]	
 	attachment_df = return_info[1]
+
+	#print(email_df)
 
 	if attachment_df.empty == False:
 		#SORT TABLE BY EMAIL DELIVERY DATE
@@ -74,3 +78,36 @@ def read_attachments(
 				u_print('NO ATTACHMENTS FOUND')
 
 	u_print('')
+	
+
+
+
+"""
+def read_attachments2(
+	subject_text='', subject_exact=False,
+	start_date=None, end_date=None,
+	attachment_name='', attachment_exact=True,
+	attachment_suffix='',
+	sql_filename='',
+	end_database=2, database='',staging_tablename='stg_attachments', delete_staging=True,
+	error_if_missing=True, print_internal=0, print_details=False
+	):
+
+	global error_count
+
+
+	#u_print("SEARCHING FOR...")
+	#u_print("Subject: "+subject_text)
+	#u_print("Attachment: "+attachment_name)
+	#u_print("Attachment Suffix: "+attachment_suffix)
+	u_print("SEARCHING FOR | Subject: "+subject_text+"| Attachment: "+attachment_name+" | Attachment Suffix: "+attachment_suffix)
+	return_info = get_emails(
+		access_token, etl_folderid, 
+		start_date=start_date, end_date=end_date,
+		get_attachments=True, print_details=True
+		)
+
+	email_df = return_info[0]	
+	attachment_df = return_info[1]
+	print(email_df)
+"""
